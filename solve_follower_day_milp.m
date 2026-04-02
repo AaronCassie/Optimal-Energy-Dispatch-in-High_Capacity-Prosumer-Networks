@@ -74,7 +74,7 @@ b = [];
 Aeq = [];
 beq = [];
 
-% No simultaneous charging/discharging via binary z.
+% No simultaneous charging/ discharging via binary z.
 A1 = zeros(T, nVar);
 for t = 1:T
     A1(t, idx.c(t)) = 1;
