@@ -48,7 +48,7 @@ The model is currently demonstrated using a 5-bus, 5-prosumer test system define
 
 ### Output handling and plotting
 - `pack_results.m`
-- `plot_prosumer_profiles.m`
+
 
   ## Input File
 
