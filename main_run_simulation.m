@@ -8,7 +8,7 @@ if nargin < 1
     userConfig = struct();
 end
 
-% Resolve any interactive settings before the heavy work starts.
+% Resolv any interactive settings before the  heavy work starts.
 userConfig = prompt_run_settings(userConfig);
 cfg = build_config(userConfig);
 pros = load_prosumer_table(cfg);
