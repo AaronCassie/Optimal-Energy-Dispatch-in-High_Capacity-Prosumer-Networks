@@ -2,7 +2,7 @@
 
 This repository contains the MATLAB implementation of a fairness-aware local energy dispatch model for a 5-bus prosumer network. The model represents a local energy-sharing system in which storage-enabled prosumers determine how much energy to offer and how to operate their batteries, while the grid clears accepted energy subject to system demand and network losses.
 
-The implementation is built around a 5-bus, 5-prosumer test system and is used to compare dispatch outcomes under four policy settings:
+The test system used is a 5-bus, 5-prosumer system and is used to compare dispatch outcomes under four policy settings:
 
 - `geographical_balance`
 - `income_priority_opportunity`
@@ -17,7 +17,7 @@ The project studies how fairness mechanisms influence:
 - accepted energy
 - prosumer payments
 - total grid payout
-- equivalent capacity
+- equivalent capacity, that is how much capacity an aggregator can build from prosumers, and hence defer investing in conventionally
 - participation patterns over time
 
 The simulation is solved using an outer iterative best-response framework in which prosumer decisions and grid clearing are updated repeatedly until convergence.
