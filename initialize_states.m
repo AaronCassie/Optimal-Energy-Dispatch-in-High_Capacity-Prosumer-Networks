@@ -5,7 +5,7 @@ function state0 = initialize_states(cfg, pros)
 N = cfg.N;
 D = cfg.D;
 
-% Fairness adjustments start from neutral.
+% Fairness adjustments start from   neutral.
 phi_fair = zeros(N, D+1);
 
 E_init_day = zeros(N,1);
