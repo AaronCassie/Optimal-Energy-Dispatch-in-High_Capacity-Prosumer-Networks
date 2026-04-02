@@ -1,6 +1,6 @@
 function a_t = solve_leader_hour_lp(cfg, p_t, q_offer_t, ell, D_feas_t)
 % Solve one hourly leader clearing problem as a linear program.
-% In the active code path rho = 0, so the upper problem is linear.
+
 
 N = numel(p_t);
 numTol = 1e-6;
