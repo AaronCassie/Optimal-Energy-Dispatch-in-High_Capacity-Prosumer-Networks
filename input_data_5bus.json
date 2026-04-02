@@ -1,0 +1,92 @@
+{
+  "system": {
+    "scenario_name": "5 prosumer system",
+    "num_buses": 5,
+    "hours_per_day": 24,
+    "time_step_hours": 1,
+    "default_weeks": 2,
+    "base_demand_scale": 12
+  },
+  "prosumers": [
+    {
+      "id": 1,
+      "bus": 1,
+      "hasStorage": 1,
+      "L_scale": 11.0,
+      "Gsol_scale": 13.0,
+      "Gwind_scale": 6.8,
+      "shiftL": 0,
+      "shiftSol": 0,
+      "shiftWind": 0,
+      "Emax": 40.0,
+      "PchMax": 10.0,
+      "PdisMax": 10.0,
+      "ell": 0.160,
+      "r": 0.33
+    },
+    {
+      "id": 2,
+      "bus": 2,
+      "hasStorage": 1,
+      "L_scale": 7.5,
+      "Gsol_scale": 8.5,
+      "Gwind_scale": 4.8,
+      "shiftL": 1,
+      "shiftSol": 0,
+      "shiftWind": 1,
+      "Emax": 24.0,
+      "PchMax": 6.0,
+      "PdisMax": 6.0,
+      "ell": 0.050,
+      "r": 0.33
+    },
+    {
+      "id": 3,
+      "bus": 3,
+      "hasStorage": 1,
+      "L_scale": 7.0,
+      "Gsol_scale": 8.0,
+      "Gwind_scale": 4.5,
+      "shiftL": -1,
+      "shiftSol": -1,
+      "shiftWind": 0,
+      "Emax": 22.0,
+      "PchMax": 5.5,
+      "PdisMax": 5.5,
+      "ell": 0.080,
+      "r": 0.33
+    },
+    {
+      "id": 4,
+      "bus": 4,
+      "hasStorage": 1,
+      "L_scale": 4.2,
+      "Gsol_scale": 4.8,
+      "Gwind_scale": 2.8,
+      "shiftL": 0,
+      "shiftSol": 1,
+      "shiftWind": -1,
+      "Emax": 14.0,
+      "PchMax": 3.5,
+      "PdisMax": 3.5,
+      "ell": 0.110,
+      "r": 0.33
+    },
+    {
+      "id": 5,
+      "bus": 5,
+      "hasStorage": 1,
+      "L_scale": 4.2,
+      "Gsol_scale": 4.8,
+      "Gwind_scale": 2.8,
+      "shiftL": 0,
+      "shiftSol": 1,
+      "shiftWind": -1,
+      "Emax": 14.0,
+      "PchMax": 3.5,
+      "PdisMax": 3.5,
+      "ell": 0.130,
+      "r": 0.33
+    }
+  ]
+}
