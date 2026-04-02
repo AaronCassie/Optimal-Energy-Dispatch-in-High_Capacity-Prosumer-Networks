@@ -1,5 +1,5 @@
 function [phi_next, f_fair, phi_preclip] = update_fairness(cfg, policy, phi_curr, a_day, q_offer_day, ell, L_day, bus, Nb, s_raw_day, c_day, dch_day)
-% Compute raw fairness signal from realized access relative to opportunity,
+% Compute raw fairness signal
 % then apply the existing damping and clipping block.
 
 N = numel(phi_curr);
