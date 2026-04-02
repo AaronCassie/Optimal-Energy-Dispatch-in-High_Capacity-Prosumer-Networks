@@ -16,7 +16,7 @@
       "Gsol_scale": 13.0,
       "Gwind_scale": 6.8,
       "shiftL": 0,
-      "shiftSol": 0,
+      "shiftSol": 0 ,
       "shiftWind": 0,
       "Emax": 40.0,
       "PchMax": 10.0,
