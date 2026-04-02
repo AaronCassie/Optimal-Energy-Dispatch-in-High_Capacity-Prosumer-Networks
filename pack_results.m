@@ -4,7 +4,7 @@ function results = pack_results(cfg, pros, profiles, demand, sim)
 
 results = struct();
 
-% Save the resolved config and scenario definition.
+% Save the resolved config and scenario definton.
 results.cfg = cfg;
 results.prosumers = pros;
 
