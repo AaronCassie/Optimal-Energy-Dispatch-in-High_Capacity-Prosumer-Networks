@@ -1,6 +1,6 @@
 function [A_week, S_week, u_week] = compute_weekly_metrics(cfg, A_day_week)
 % Compute weekly access metrics only.
-% Willingness no longer feeds back weekly, but these summaries are still useful.
+% Willingness no longer feeds back weekly, recall now daily to repond to dialy changes in dispatch score but these summaries are still useful.
 
 N = size(A_day_week,1);
 
