@@ -1,6 +1,6 @@
 function base = build_base_shapes()
 % Base daily shapes used for every run.
-% The shapes stay normalized here; each scenario scales them later.
+% The shapes are just a base shape here, they can be scaled and shifted in the input dat.
 
 % Daily load shape: quiet overnight, climbing through the day, then easing off.
 base.load = [0.62,0.60,0.58,0.56,0.55,0.57,0.63,0.72,0.80,0.84,0.86,0.87, ...
