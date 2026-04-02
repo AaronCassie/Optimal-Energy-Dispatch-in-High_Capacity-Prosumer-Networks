@@ -63,25 +63,6 @@ switch policy
         s_max = 0.20 + cfg.anti_monopoly_delta;
         f_fair = max(0, accepted_share - s_max);
 
-    case 'income_priority_opportunity'
-        % Same poverty gating as income_priority, but normalize by feasible opportunity.
-        daily_load = sum(L_day, 2) * cfg.dt;
-        p = cfg.poverty_quantile;
-        sorted_load = sort(daily_load);
-        k = max(1, min(N, ceil(p * N)));
-        theta = sorted_load(k);
-        % Only prosumers below the threshold are eligible for support.
-        eligible = double(daily_load <= theta);
-        vulnerability = eligible ./ max(daily_load, cfg.eps_q);
-        vulnerability_sum = sum(vulnerability);
-        if vulnerability_sum > 0
-            income_weight = vulnerability / vulnerability_sum;
-        else
-            income_weight = zeros(N,1);
-        end
-        shortfall = max(0, mean_access_ratio_cap - access_ratio_cap) ./ max(mean_access_ratio_cap, cfg.eps0);
-        f_fair = -income_weight .* shortfall;
-
     case 'none'
         % Full no-policy mode: zero signal and zero carried fairness adjustment.
         f_fair = zeros(N,1);

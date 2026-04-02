@@ -22,14 +22,14 @@ cfg.Kmax = 20;
 cfg.fairness_policy = 'geographical_balance';  % user-settable
 
 % Fairness / policy parameters.
-cfg.eta_fair = 1.2;
+cfg.eta_fair = 0.8;
 cfg.eps_q = 1e-6;
 cfg.eps0 = 1e-9;
 cfg.eps_IBR = 1e-3;
 cfg.delta = 0.02;
-cfg.anti_monopoly_delta = 0.02;
-cfg.beta_forget = 0.08;
-cfg.phi_max = 0.08;
+cfg.anti_monopoly_delta = 0.1;
+cfg.beta_forget = 0.15;
+cfg.phi_max = 0.05;
 cfg.poverty_quantile = 0.4;
 
 % Demand and planning parameters.
