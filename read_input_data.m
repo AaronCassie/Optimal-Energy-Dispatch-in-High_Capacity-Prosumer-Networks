@@ -10,7 +10,7 @@ if ~isfile(filename)
     error('Input file not found: %s', filename);
 end
 
-% Read raw text first, then decode once.
+% Read raw text first, then  decode once.
 raw = fileread(filename);
 data = jsondecode(raw);
 
