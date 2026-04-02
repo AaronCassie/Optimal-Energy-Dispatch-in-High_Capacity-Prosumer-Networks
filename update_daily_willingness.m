@@ -1,6 +1,6 @@
 function psi_disp = update_daily_willingness(cfg, p_disp_day)
 % Compute current-day willingness directly from the dispatch-side price signal.
-% Lower dispatch-side price means the prosumer is more attractive to clear.
+% Lower dispatch side price means the prosumer is more attractive to clear.
 
 % Prices are constant within the day, so one column is enough here.
 p_disp_vec = p_disp_day(:,1);
