@@ -1,6 +1,6 @@
 function pros = load_prosumer_table(cfg)
 % Load prosumer data from the configured JSON input file.
-% This keeps the scenario definition outside the solver code.
+% This keeps the scenario  definition outside the solver code.
 
 inputData = read_input_data(cfg.input_file);
 
