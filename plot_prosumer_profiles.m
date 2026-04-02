@@ -1,5 +1,5 @@
 % plot_prosumer_profiles.m
-% Standalone visualization/debugging script.
+% Standalone visualization/debugging script, check back if
 % Plots 24-hour load and generation profiles for all prosumers (stacked).
 
 clear; clc;
