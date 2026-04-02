@@ -1,5 +1,5 @@
 function [profiles, demand] = generate_profiles(cfg, pros, base)
-% Generate repeated daily exogenous profiles and the base exogenous demand shape.
+% Generate repeated daily  profiles and the base demand shape.
 
 N = cfg.N;
 T = cfg.T;
@@ -33,7 +33,7 @@ profiles.Gwind = Gwind;
 profiles.G = G;
 profiles.s_raw = s_raw;
 
-% Smooth daily demand profile used by the leader.
+% Smooth daily demand profile used by the leader, it follows the typical shape of a consumer with afternoon peaks.
 t = 1:T;
 D_tilde = 0.55 + 0.18*exp(-((t-9).^2)/(2*(2.5^2))) + 0.32*exp(-((t-18).^2)/(2*(3^2)));
 Dhat = D_tilde / max(D_tilde);
