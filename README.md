@@ -1,26 +1,19 @@
 # Optimal Energy Dispatch in High-Capacity Prosumer Networks
 
-This repository contains the MATLAB implementation of a fairness-aware local energy dispatch model for a 5-bus prosumer network. The model represents a local energy-sharing system in which storage-enabled prosumers determine how much energy to offer and how to operate their batteries, while the grid clears accepted energy subject to system demand and network losses.
+This project develops an energy dispatch policy-testing framework for aggregators or utilities operating prosumer networks. It is intended to evaluate how a chosen dispatch or fairness policy affects system outcomes, particularly the distribution of payments among prosumers and the equivalent capacity that can be obtained from prosumer participation. That is, the amount of capacity that a utility can then defer investing in conventionally. Therefore, the tool allows the evaluation of a policy to uncover its long-term effects on capacity access, which can then allow utilities to make informed decisions not only about whether to implement the policy, but also how, since the tool allows them to vary key policy parameters and observe the resulting outcomes. These outcomes can then be used in capacity planning and financial projections to support a more informed and deterministic decision regarding policy implementation.
 
-The test system used is a 5-bus, 5-prosumer system and is used to compare dispatch outcomes under four policy settings:
+## Project Summary
 
-- `geographical_balance`
-- `income_priority_opportunity`
-- `anti_monopoly`
-- `none`
-
-## Project Purpose
-
-The project studies how fairness mechanisms influence:
+The repository contains the MATLAB implementation of a local energy dispatch model used to study how different policy choices influence:
 
 - offered energy
 - accepted energy
 - prosumer payments
 - total grid payout
-- equivalent capacity, that is how much capacity an aggregator can build from prosumers, and hence defer investing in conventionally
+- equivalent capacity
 - participation patterns over time
 
-The simulation is solved using an outer iterative best-response framework in which prosumer decisions and grid clearing are updated repeatedly until convergence.
+The model is currently demonstrated using a 5-bus, 5-prosumer test system defined in the input file, but the code structure is intended as a general policy-testing framework rather than a model limited in principle to that single case.
 
 ## Repository Structure
 
