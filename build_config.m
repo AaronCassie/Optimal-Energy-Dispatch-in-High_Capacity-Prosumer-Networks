@@ -1,6 +1,6 @@
 function cfg = build_config(userConfig)
 % Build the run configuration.
-% This is the central place where defaults live before prompts/overrides apply.
+
 
 % Default input source.
 cfg.input_file = 'input_data_5bus.json';
@@ -46,15 +46,15 @@ cfg.e_margin = 0.075;
 cfg.e_min = 0.0165;
 cfg.r_low = 0.045;
 
-% Legacy default output name. main_run_simulation builds the descriptive filename.
+
 cfg.output_file = 'simulation_results.mat';
 
-% Keep solver options centralized so version-specific fixes stay in one place.
+% Keep solver options all here so dat version  specific fixes stay in one place.
 cfg.intlinprog_options = optimoptions('intlinprog');
 cfg.intlinprog_options = set_option_if_supported(cfg.intlinprog_options, 'Display', 'off');
 cfg.intlinprog_options = set_option_if_supported(cfg.intlinprog_options, 'MaxTime', 30);
 
-% The leader is linear in the active implementation, but we keep linprog options explicit.
+% linprog options explicit.
 cfg.linprog_options = optimoptions('linprog');
 cfg.linprog_options = set_option_if_supported(cfg.linprog_options, 'Display', 'off');
 cfg.linprog_options = set_option_if_supported(cfg.linprog_options, 'OptimalityTolerance', 1e-8);
@@ -65,7 +65,8 @@ if nargin > 0 && ~isempty(userConfig) && isfield(userConfig, 'input_file')
     cfg.input_file = userConfig.input_file;
 end
 
-% Pull system-level defaults from the JSON file before applying explicit overrides.
+% Load system defaults from the JSON file first.
+
 inputData = read_input_data(cfg.input_file);
 if isfield(inputData, 'system')
     cfg = apply_system_data(cfg, inputData.system);
@@ -79,7 +80,7 @@ if nargin > 0 && ~isempty(userConfig)
     end
 end
 
-% Recompute total days after the final week count is known.
+% find total days after the final week count is known.
 cfg.D = 7 * cfg.W;
 
 % Keep policy validation in one place so bad inputs fail early.
@@ -99,7 +100,7 @@ if nargin < 2 || isempty(systemData)
     return;
 end
 
-% These are the pieces we actually need from the input file.
+% These are the pieces actually need from the input file.
 if isfield(systemData, 'scenario_name')
     cfg.scenario_name = systemData.scenario_name;
 end
@@ -121,7 +122,7 @@ end
 end
 
 function opts = set_option_if_supported(opts, name, value)
-% Some option names differ across MATLAB versions, so guard the assignment.
+% Some option names differ across MATLAB versions i think
 if isprop(opts, name)
     opts.(name) = value;
 end
