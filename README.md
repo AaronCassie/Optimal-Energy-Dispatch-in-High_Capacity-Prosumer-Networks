@@ -50,15 +50,7 @@ The model is currently demonstrated using a 5-bus, 5-prosumer test system define
 - `pack_results.m`
 - `plot_prosumer_profiles.m`
 
-## How to Run
-
-Open MATLAB in the repository folder and run:
-
-```matlab
-results = main_run_simulation();
-
-
-## Input File
+  ## Input File
 
 The model reads its system and prosumer data from:
 
@@ -165,6 +157,19 @@ The current input file defines a 5-bus test system with one prosumer assigned to
 - battery capacity
 - charging and discharging limits
 - network loss factor
+
+This test system is used to demonstrate the framework and compare policy outcomes.
+
+
+## How to Run
+
+Open MATLAB in the repository folder and run:
+
+```matlab
+results = main_run_simulation();
+
+
+
 
 
 
