@@ -165,8 +165,8 @@ This test system is used to demonstrate the framework and compare policy outcome
 
 Open MATLAB in the repository folder and run:
 
-```matlab
-results = main_run_simulation();
+
+main_run_simulation.m
 
 
 
