@@ -9,7 +9,7 @@ Kmax = cfg.Kmax;
 W = cfg.W;
 numTol = 1e-6;
 
-% Full iteration history for debugging.
+% Full iteration history for debuging.
 q_offer_hist = zeros(N,T,Kmax,D);
 a_hist = zeros(N,T,Kmax,D);
 
@@ -39,7 +39,7 @@ A_day = zeros(N,D);
 R_day = zeros(N,D);
 R_mean = zeros(1,D);
 
-% Fairness and willingness-equivalent daily signal.
+% Fairness  daily signal.
 phi_fair = state0.phi_fair;
 psi_disp = zeros(N,D);
 f_fair = zeros(N,D);
@@ -72,7 +72,7 @@ for w = 1:W
         p_disp_all(:,:,d) = p_disp_day;
         psi_disp(:,d) = update_daily_willingness(cfg, p_disp_day);
 
-        % Unless we converge early, the last iterate becomes the daily solution.
+        % Unless converge, the last iterate becomes the daily solution,most days converge when k is two.
         k_star = Kmax;
 
         for k = 1:Kmax
@@ -83,7 +83,7 @@ for w = 1:W
                 % Each prosumer solves its own day-level best response.
                 fol = solve_follower_day_milp(cfg, pros, i, s_day, p_row, psi_disp(i,d), E_init_day(i));
 
-                % Clean tiny negative solver noise before passing anything downstream.
+                %  Zero out tiny negative values caused by solver tolerance..
                 qtmp = max(fol.q_offer, 0);
                 ctmp = max(fol.c, 0);
                 dtmp = max(fol.dch, 0);
