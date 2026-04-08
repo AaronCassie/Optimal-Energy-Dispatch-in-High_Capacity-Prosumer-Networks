@@ -162,7 +162,7 @@ This test system is used to demonstrate the framework and compare policy outcome
 
 
 ## How to Run
-
+Ensure Optimization Toolbox is installed on MATLAB
 Open MATLAB in the repository folder and run:
 
 
@@ -170,6 +170,94 @@ main_run_simulation.m
 
 
 
+## Defining a New Input-File Fairness Policy
+
+The repository includes an example external policy definition in `input_policy_geographical_balance_demo.m`. This file shows how a policy can be described outside the main solver by writing a structured set of rule components that the fairness updater can read.
+
+### How it works
+
+An input-file policy is defined in two parts:
+
+1. The policy input file  
+   This file declares the policy name and the rule components, such as:
+   - the rule type
+   - the metric being evaluated
+   - how prosumers are grouped
+   - the reference used for comparison
+   - the gap direction
+   - the rectifier
+   - the output sign
+   - the normalizer
+
+2. The evaluator in `update_fairness.m`  
+   The evaluator reads those fields and converts them into the actual fairness calculation used by the simulation.
+
+### Meaning of the key terms
+- `reference level`  
+  This means the benchmark value that a prosumer or group is being compared against. In the geographical policy example, the reference level is the mean bus access across all buses.
+
+
+- `gap_direction`  
+  This tells the code how to form the difference between the reference and the group value.
+
+- `rectifier`  
+  This tells the code which part of the gap to keep.
+
+- `normalizer`  
+  This tells the code what to divide by so the fairness signal is scaled consistently.
+
+### Geographical policy example
+
+The built-in `geographical_balance` policy already uses these ideas, even though they were originally written directly as one formula.
+
+For `gap_direction`, the policy compares each bus against the overall mean bus access by computing `mean_bus_access - bus_access(bus(:))`, so the gap is defined as the reference level minus the bus’s own level. That means a bus below the mean gets a positive gap, while a bus at or above the mean gets zero or negative gap.
+
+For `rectifier`, the code then applies `max(0, ...)`, which means it keeps only the positive part of that gap. So the policy only reacts to under-served buses; it does not penalize buses that are already above the mean.
+
+For `normalizer`, the code divides by `max(mean_bus_access, cfg.eps0)`. This scales the signal relative to the size of the reference itself, so the fairness adjustment is based on proportional shortfall rather than raw absolute difference. That makes the signal more stable and comparable across runs or operating conditions.
+
+### Important limitation
+
+The input-file approach is structured, but it is not fully open-ended by itself. A user can change the policy definition freely, but if they introduce a brand-new label or rule component that the evaluator does not already recognize, then `update_fairness.m` must also be extended so the code knows how to interpret it.
+
+For example, if a user wants to introduce:
+- a new grouping method
+- a new fairness metric
+- a new reference calculation
+- a new gap rule
+- a new normalizer
+
+then the evaluator must be updated accordingly.
+
+### Workflow for adding a new policy
+
+1. Create or edit an input policy file  
+   Use `input_policy_geographical_balance_demo.m` as a template.
+
+2. Add the rule labels to the input file  
+   Define the policy structure by setting fields such as:
+   - `rule_type`
+   - `group_metric`
+   - `group_by`
+   - `reference_type`
+   - `gap_direction`
+   - `rectifier`
+   - `output_sign`
+   - `normalizer`
+
+3. Extend the evaluator in `update_fairness.m` if needed  
+   If the policy uses only labels that are already supported, no further logic changes are needed. If the policy introduces a new rule label or a new type of calculation, then `update_fairness.m` must be extended so the code knows what that new label means and how to compute it.
+
+4. Register the policy in the run-time selection flow if needed  
+   This step is only needed if the new policy should appear as a selectable option when the user runs the simulation manually. In that case, add it to:
+   - `main_run_simulation.m`, so it appears in the policy selection menu
+   - `build_config.m`, so it is treated as a valid policy during configuration checks
+
+If the policy is only being used internally or called directly through code, this step may not be necessary.
+
+### Practical interpretation
+
+So the input file defines **what** policy structure is intended, while `update_fairness.m` defines **how** each declared option is actually computed. If a user stays within the currently supported labels, only the input file needs to be edited. If a user wants a genuinely new policy structure, both the input file and the evaluator must be updated.
 
 
 
