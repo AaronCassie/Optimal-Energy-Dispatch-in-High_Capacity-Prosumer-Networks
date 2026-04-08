@@ -4,7 +4,7 @@ function policyDef = input_policy_geographical_balance_demo()
 
 policyDef = struct();
 
-% Friendly name for menus and saved output labels.
+%  name for menus and saved output labels.
 policyDef.policy_name = 'geographical_balance_input_file';
 
 % The rule type tells the fairness updater what general calculation to do.
