@@ -1,6 +1,6 @@
 function policyDef = load_policy_definition(filename)
 % Load a policy definition from a small MATLAB input file.
-% Using a .m file here keeps it easy to comment for demo purposes.
+% Using a .m file here keeps it easy to comment for demo purposes, instead of a json file like used for prosumer inputs.
 
 if nargin < 1 || isempty(filename)
     error('A policy input filename must be provided.');
