@@ -35,20 +35,21 @@ function userConfig = prompt_run_settings(userConfig)
 % Prompt interactively only for settings not already provided.
 % This keeps scripted runs working while still making manual runs easy.
 
-policyOptions = {'geographical_balance', 'income_priority_opportunity', 'anti_monopoly', 'none'};
+policyOptions = {'geographical_balance_input_file', 'geographical_balance', 'income_priority_opportunity', 'anti_monopoly', 'none'};
 userConfig.scenario_name = '5 prosumer system';
 fileDefaults = build_config(struct());
 
 if ~isfield(userConfig, 'fairness_policy') || isempty(userConfig.fairness_policy)
     % Policy selection still happens here rather than in the JSON file.
     fprintf('Select fairness policy:\n');
-    fprintf('  1. geographical_balance\n');
-    fprintf('  2. income_priority_opportunity\n');
-    fprintf('  3. anti_monopoly\n');
-    fprintf('  4. none\n');
+    fprintf('  1. geographical_balance_input_file\n');
+    fprintf('  2. geographical_balance\n');
+    fprintf('  3. income_priority_opportunity\n');
+    fprintf('  4. anti_monopoly\n');
+    fprintf('  5. none\n');
 
     while true
-        policyChoice = input('Enter 1, 2, 3, or 4: ', 's');
+        policyChoice = input('Enter 1, 2, 3, 4, or 5: ', 's');
         switch strtrim(policyChoice)
             case '1'
                 userConfig.fairness_policy = policyOptions{1};
@@ -62,8 +63,11 @@ if ~isfield(userConfig, 'fairness_policy') || isempty(userConfig.fairness_policy
             case '4'
                 userConfig.fairness_policy = policyOptions{4};
                 break;
+            case '5'
+                userConfig.fairness_policy = policyOptions{5};
+                break;
             otherwise
-                fprintf('Invalid selection. Please enter 1, 2, 3, or 4.\n');
+                fprintf('Invalid selection. Please enter 1, 2, 3, 4, or 5.\n');
         end
     end
 end
@@ -88,7 +92,7 @@ end
 
 % Only prompt for the policy parameters the chosen policy actually uses.
 switch userConfig.fairness_policy
-    case {'geographical_balance', 'income_priority_opportunity', 'anti_monopoly'}
+    case {'geographical_balance_input_file', 'geographical_balance', 'income_priority_opportunity', 'anti_monopoly'}
         if ~isfield(userConfig, 'phi_max') || isempty(userConfig.phi_max)
             userConfig.phi_max = prompt_numeric_with_recommended('phi_max', fileDefaults.phi_max, 'cap on the fairness price adjustment');
         end

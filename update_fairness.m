@@ -29,6 +29,22 @@ opp_share_cap = delivered_opp_cap / max(sum(delivered_opp_cap), cfg.eps_q);
 
 % Each policy only changes the raw fairness signal.
 switch policy
+    case 'geographical_balance_input_file'
+        % This route exists to show how a user-defined policy file can plug into the model.
+        policyDef = cfg.policy_input_definition;
+        switch policyDef.policy_mode
+            case 'bus_mean_access_shortfall'
+                bus_access = zeros(Nb, 1);
+                for m = 1:Nb
+                    idx = (bus(:) == m);
+                    bus_access(m) = mean(access_ratio(idx));
+                end
+                mean_bus_access = mean(bus_access);
+                f_fair = -max(0, mean_bus_access - bus_access(bus(:))) ./ max(mean_bus_access, cfg.eps0);
+            otherwise
+                error('Unknown input-file policy mode: %s', policyDef.policy_mode);
+        end
+
     case 'geographical_balance'
         % Compare each bus against the mean bus-level access ratio.
         bus_access = zeros(Nb, 1);

@@ -4,6 +4,7 @@ function cfg = build_config(userConfig)
 
 % Default input source.
 cfg.input_file = 'input_data_5bus.json';
+cfg.policy_input_file = 'input_policy_geographical_balance_demo.m';
 cfg.scenario_name = '5 prosumer system';
 
 % Baseline dimensions. These can be overwritten later by the loaded data.
@@ -64,6 +65,9 @@ cfg.linprog_options = set_option_if_supported(cfg.linprog_options, 'ConstraintTo
 if nargin > 0 && ~isempty(userConfig) && isfield(userConfig, 'input_file')
     cfg.input_file = userConfig.input_file;
 end
+if nargin > 0 && ~isempty(userConfig) && isfield(userConfig, 'policy_input_file')
+    cfg.policy_input_file = userConfig.policy_input_file;
+end
 
 % Load system defaults from the JSON file first.
 
@@ -71,6 +75,9 @@ inputData = read_input_data(cfg.input_file);
 if isfield(inputData, 'system')
     cfg = apply_system_data(cfg, inputData.system);
 end
+
+% Load the demo policy definition from its own input file.
+cfg.policy_input_definition = load_policy_definition(cfg.policy_input_file);
 
 % Anything passed in explicitly should win over defaults and JSON values.
 if nargin > 0 && ~isempty(userConfig)
@@ -84,9 +91,9 @@ end
 cfg.D = 7 * cfg.W;
 
 % Keep policy validation in one place so bad inputs fail early.
-validPolicies = {'geographical_balance','income_priority_opportunity','anti_monopoly','none'};
+validPolicies = {'geographical_balance_input_file','geographical_balance','income_priority_opportunity','anti_monopoly','none'};
 if ~any(strcmp(cfg.fairness_policy, validPolicies))
-    error('Invalid fairness_policy. Use geographical_balance, income_priority_opportunity, anti_monopoly, or none.');
+    error('Invalid fairness_policy. Use geographical_balance_input_file, geographical_balance, income_priority_opportunity, anti_monopoly, or none.');
 end
 
 % Prebuild the day-to-week mapping the rest of the simulation uses.

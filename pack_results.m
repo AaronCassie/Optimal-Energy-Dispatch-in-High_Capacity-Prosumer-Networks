@@ -50,6 +50,11 @@ results.R_grid_week = sim.R_grid_week;
 results.C_eq = sim.C_eq;
 results.C_avoided = sim.C_avoided;
 results.Savings = sim.Savings;
+
+% Convenience summaries for plotting or quick checks later.
+results.total_offered_per_day = squeeze(sum(sum(sim.q_offer_star, 1), 2));
+results.prosumer_total_payout = sum(sim.R_week, 2);
+
 % Pricing and fairness state history.
 results.p_pay = sim.p_pay;
 results.p_disp = sim.p_disp;
