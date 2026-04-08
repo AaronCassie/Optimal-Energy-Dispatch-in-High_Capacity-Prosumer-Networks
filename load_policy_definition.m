@@ -21,7 +21,7 @@ end
 
 policyDef = feval(funcName);
 
-requiredFields = {'policy_name', 'policy_mode', 'policy_notes'};
+requiredFields = {'policy_name', 'rule_type', 'policy_notes'};
 for k = 1:numel(requiredFields)
     if ~isfield(policyDef, requiredFields{k})
         error('Policy input file %s is missing field "%s".', filename, requiredFields{k});

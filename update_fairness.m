@@ -30,20 +30,9 @@ opp_share_cap = delivered_opp_cap / max(sum(delivered_opp_cap), cfg.eps_q);
 % Each policy only changes the raw fairness signal.
 switch policy
     case 'geographical_balance_input_file'
-        % This route exists to show how a user-defined policy file can plug into the model.
+        % This route evaluates the policy directly from the external definition.
         policyDef = cfg.policy_input_definition;
-        switch policyDef.policy_mode
-            case 'bus_mean_access_shortfall'
-                bus_access = zeros(Nb, 1);
-                for m = 1:Nb
-                    idx = (bus(:) == m);
-                    bus_access(m) = mean(access_ratio(idx));
-                end
-                mean_bus_access = mean(bus_access);
-                f_fair = -max(0, mean_bus_access - bus_access(bus(:))) ./ max(mean_bus_access, cfg.eps0);
-            otherwise
-                error('Unknown input-file policy mode: %s', policyDef.policy_mode);
-        end
+        f_fair = evaluate_input_policy(policyDef, cfg, access_ratio, bus, Nb);
 
     case 'geographical_balance'
         % Compare each bus against the mean bus-level access ratio.
@@ -94,4 +83,47 @@ end
 phi_preclip = (1 - cfg.beta_forget) * phi_curr + cfg.eta_fair * f_fair;
 phi_next = min(max(phi_preclip, -cfg.phi_max), cfg.phi_max);
 
+end
+
+function f_fair = evaluate_input_policy(policyDef, cfg, access_ratio, bus, Nb)
+% Evaluate a user-defined fairness rule from the input policy file.
+% For now this supports the group-gap structure used by the demo file.
+
+switch policyDef.rule_type
+    case 'group_gap_support'
+        if ~isfield(policyDef, 'group_metric') || ~strcmp(policyDef.group_metric, 'access_ratio')
+            error('Unsupported input-policy group_metric.');
+        end
+        if ~isfield(policyDef, 'group_by') || ~strcmp(policyDef.group_by, 'bus')
+            error('Unsupported input-policy group_by.');
+        end
+        if ~isfield(policyDef, 'reference_type') || ~strcmp(policyDef.reference_type, 'mean_group_value')
+            error('Unsupported input-policy reference_type.');
+        end
+        if ~isfield(policyDef, 'gap_direction') || ~strcmp(policyDef.gap_direction, 'reference_minus_group')
+            error('Unsupported input-policy gap_direction.');
+        end
+        if ~isfield(policyDef, 'rectifier') || ~strcmp(policyDef.rectifier, 'positive_part')
+            error('Unsupported input-policy rectifier.');
+        end
+        if ~isfield(policyDef, 'normalizer') || ~strcmp(policyDef.normalizer, 'reference_value')
+            error('Unsupported input-policy normalizer.');
+        end
+        if ~isfield(policyDef, 'output_sign')
+            error('Input policy is missing output_sign.');
+        end
+
+        groupValue = zeros(Nb, 1);
+        for m = 1:Nb
+            idx = (bus(:) == m);
+            groupValue(m) = mean(access_ratio(idx));
+        end
+
+        referenceValue = mean(groupValue);
+        rawGap = referenceValue - groupValue(bus(:));
+        f_fair = policyDef.output_sign * max(0, rawGap) ./ max(referenceValue, cfg.eps0);
+
+    otherwise
+        error('Unknown input-file rule_type: %s', policyDef.rule_type);
+end
 end
