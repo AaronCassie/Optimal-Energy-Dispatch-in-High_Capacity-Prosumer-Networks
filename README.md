@@ -212,8 +212,25 @@ main_run_simulation.m
 
 The repository includes an example external policy definition in `input_policy_geographical_balance_demo.m`. This file shows how a policy can be described outside the main solver by writing a structured set of rule components that the fairness updater can read.
 
-### How it works
 
+### Constructing the fairness signal
+
+When defining a new policy, the key design choice is the sign and size of the raw fairness signal `f_fair`, because this is what feeds into the daily fairness adjustment and therefore affects later pricing and acceptance.
+
+In this framework, a **negative** fairness signal acts as support, while a **positive** fairness signal acts as a penalty.
+
+This is because the fairness adjustment enters the daily price terms, and the grid then clears energy using the dispatch-side price. A lower future dispatch-side price makes a prosumer more attractive in clearing, while a higher future dispatch-side price makes a prosumer less attractive.
+
+So, in practical terms:
+
+- if the policy is intended to **help** a prosumer or group directly, then the fairness signal for that prosumer or group should be made **more negative**
+- if the policy is intended to **penalize** a prosumer or group directly, then the fairness signal for that prosumer or group should be made **more positive**
+
+This means that a supportive policy should assign the largest negative fairness signals to those participants the grid wants to benefit, while a penalizing policy should assign the largest positive fairness signals to those participants the grid wants to restrain.
+
+The raw fairness signal does not act on its own; it feeds into the daily fairness adjustment update, which is then used in the next day’s pricing step. Therefore, when defining a policy, the user should think of `f_fair` as the directional policy signal that tells the model who should be supported and who should be penalized in future clearing.
+
+### How it works
 An input-file policy is defined in two parts:
 
 1. The policy input file  
@@ -254,9 +271,9 @@ For `rectifier`, the code then applies `max(0, ...)`, which means it keeps only 
 
 For `normalizer`, the code divides by `max(mean_bus_access, cfg.eps0)`. This scales the signal relative to the size of the reference itself, so the fairness adjustment is based on proportional shortfall rather than raw absolute difference. That makes the signal more stable and comparable across runs or operating conditions.
 
-### Important limitation
+### Important 
 
-The input-file approach is structured, but it is not fully open-ended by itself. A user can change the policy definition freely, but if they introduce a brand-new label or rule component that the evaluator does not already recognize, then `update_fairness.m` must also be extended so the code knows how to interpret it.
+ A user can change the policy definition freely, but if they introduce a brand-new label or rule component that the evaluator does not already recognize, then `update_fairness.m` must also be extended so the code knows how to interpret it.
 
 For example, if a user wants to introduce:
 - a new grouping method
@@ -293,7 +310,7 @@ then the evaluator must be updated accordingly.
 
 If the policy is only being used internally or called directly through code, this step may not be necessary.
 
-### Practical interpretation
+### Clarified
 
 So the input file defines **what** policy structure is intended, while `update_fairness.m` defines **how** each declared option is actually computed. If a user stays within the currently supported labels, only the input file needs to be edited. If a user wants a genuinely new policy structure, both the input file and the evaluator must be updated.
 
