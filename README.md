@@ -200,7 +200,7 @@ This test system is used to demonstrate the framework and compare policy outcome
 
 
 ## How to Run
-Ensure Optimization Toolbox is installed on MATLAB
+Ensure Optimization Toolbox is installed on MATLAB.
 Open MATLAB in the repository folder and run:
 
 
