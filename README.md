@@ -82,7 +82,7 @@ The active implementation currently supports the following selectable policies:
 
 - `geographical_balance_input_file`
 - `geographical_balance`
-- `income_priority_opportunity`
+- `income_priority`
 - `anti_monopoly`
 - `none`
 
