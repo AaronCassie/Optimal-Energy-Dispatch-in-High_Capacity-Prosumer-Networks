@@ -4,7 +4,7 @@ This project develops an energy dispatch policy-testing framework for aggregator
 
 ## Project Summary
 
-The repository contains the MATLAB implementation of a local energy dispatch model used to study how different policy choices influence:
+The repository contains the MATLAB implementation of an energy dispatch model used to study how different policy choices influence:
 
 - offered energy
 - accepted energy
